@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Budget Planning Debug</title>
+
+    <!-- ERROR TRAPPING FOR DEBUGGING -->
+    <script>
+        window.onerror = function (msg, url, lineNo, columnNo, error) {
+            var container = document.getElementById('error-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'error-container';
+                container.style.color = 'red';
+                container.style.background = '#ffebee';
+                container.style.padding = '20px';
+                container.style.border = '1px solid red';
+                container.style.margin = '20px';
+                container.style.zIndex = '9999';
+                document.body.prepend(container);
+            }
+            container.innerHTML += '<h3>JavaScript Error:</h3><pre>' + msg + '\nline: ' + lineNo + '\nurl: ' + url + '</pre>';
+            return false;
+        };
+    </script>
+
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 2. React & ReactDOM (Development for better errors) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- 3. Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 4. Recharts for Charts -->
+    <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
+
+    <style>
+        body {
+            background-color: #09090b;
+            color: #ffffff;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Basic check to see if we reached execution
+        console.log("Script starting...");
+
+        try {
+            const { useState, useEffect, createContext, useContext } = React;
+
+            // Check Recharts
+            if (!window.Recharts) {
+                throw new Error("Recharts library failed to load");
+            }
+            const { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } = window.Recharts;
+
+            // Simplified Icons
+            const Wallet = () => <span>💰</span>;
+            const PieIcon = () => <span>📊</span>;
+            const AlertCircle = () => <span>⚠️</span>;
+
+            function App() {
+                const [count, setCount] = useState(0);
+                return (
+                    <div className="p-10 text-center">
+                        <h1 className="text-3xl text-green-500 font-bold mb-4">React is Working!</h1>
+                        <p>If you see this, the core setup is correct.</p>
+                        <div className="h-64 border border-white mt-4 relative">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie data={[{ name: 'A', value: 100 }]} dataKey="value" fill="#8884d8" cx="50%" cy="50%" outerRadius={50} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                );
+            }
+
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<App />);
+
+        } catch (err) {
+            console.error(err);
+            document.body.innerHTML += '<div style="color:red; padding:20px">Runtime Error: ' + err.message + '</div>';
+        }
+    </script>
+</body>
+
+</html>
